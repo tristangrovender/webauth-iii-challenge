@@ -43,7 +43,6 @@ function generateToken(user) {
   const payload = {
     subject: user.id, // what the token is describing
     username: user.username,
-    roles: ['student'], // user.roles this is not created in db we are just faking it.
   };
   const options = {
     expiresIn: '1h',
