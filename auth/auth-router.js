@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken'); //<<<<<<<<<<<<<<<<<<<
+const jwt = require('jsonwebtoken'); //<<< library
 
 const Users = require('../users/users-model.js');
 const secrets = require('../config/secrets.js');
@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = generateToken(user); // <<<<<<<<<<<<<<<<<<<<<<<<
+        const token = generateToken(user); // <<< generate token, user is payload
         res.status(200).json({
           message: `Welcome ${user.username}!`,
           token,
@@ -43,13 +43,13 @@ function generateToken(user) {
   const payload = {
     subject: user.id, // what the token is describing
     username: user.username,
-    roles: ['student'], // user.roles
+    roles: ['student'], // user.roles this is not created in db we are just faking it.
   };
   const options = {
     expiresIn: '1h',
   };
 
-  return jwt.sign(payload, secrets.jwtSecret, options);
+  return jwt.sign(payload, secrets.jwtSecret, options); // data(payload), secret, options(when it will expire etc)
 }
 
 module.exports = router;

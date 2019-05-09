@@ -11,6 +11,7 @@ router.get('/', restricted, checkRole('student'), (req, res) => {
     .catch(err => res.send(err));
 });
 
+// Middleware to give access to certain resources for specific roles on login
 function checkRole(role) {
   return function(req, res, next) {
     if (
